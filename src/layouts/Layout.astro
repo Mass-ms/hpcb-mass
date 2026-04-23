@@ -106,10 +106,17 @@ if (database.Icon && database.Icon.Type === 'file') {
 
       <div class="main-content">
         <aside class="left-aside">
-          <SearchButton />
-          <slot name="aside" />
-          <div class="sticky-social">
-            <SocialLink />
+          <button
+            class="aside-toggle"
+            type="button"
+            aria-label="サイドバー切替"
+          ><i class="fa-solid fa-bars"></i></button>
+          <div class="aside-inner">
+            <SearchButton />
+            <slot name="aside" />
+            <div class="sticky-social">
+              <SocialLink />
+            </div>
           </div>
         </aside>
         <main>
@@ -138,6 +145,25 @@ if (database.Icon && database.Icon.Type === 'file') {
         <script src={getStaticFilePath('/scripts/fslightbox.js')} />
       )
     }
+
+    <script is:inline>
+      (function () {
+        const aside = document.querySelector('.left-aside')
+        const toggle = document.querySelector('.aside-toggle')
+        if (!aside || !toggle) return
+
+        const apply = (collapsed) =>
+          aside.classList.toggle('collapsed', collapsed)
+
+        apply(localStorage.getItem('aside-collapsed') === 'true')
+
+        toggle.addEventListener('click', () => {
+          const collapsed = !aside.classList.contains('collapsed')
+          apply(collapsed)
+          localStorage.setItem('aside-collapsed', collapsed)
+        })
+      })()
+    </script>
   </body>
 </html>
 
@@ -229,6 +255,10 @@ if (database.Icon && database.Icon.Type === 'file') {
       margin-bottom: 0%;
       margin-right: 0%;
       margin-left: 0%;
+      transition: width 0.3s ease;
+    }
+    .left-aside.collapsed ~ main {
+      width: calc(100% - 3.5rem);
     }
   }
 
@@ -240,6 +270,9 @@ if (database.Icon && database.Icon.Type === 'file') {
       margin-bottom: 0%;
       margin-right: 0%;
       margin-left: 0%;
+    }
+    .left-aside.collapsed ~ main {
+      width: calc(100% - 3.5rem);
     }
   }
   @media (max-width: 990px) {
@@ -253,13 +286,11 @@ if (database.Icon && database.Icon.Type === 'file') {
       margin-left: 0%;
     }
   }
-  @media (max-width: 640px) {
+  @media (max-width: 650px) {
     main {
       order: 0;
       width: 100%;
-      margin-top: 0%;
-      margin-bottom: 0%;
-      margin-left: auto;
+      margin: 0;
     }
   }
 
@@ -275,7 +306,40 @@ if (database.Icon && database.Icon.Type === 'file') {
     margin-left: 0%;
     padding: 20px 10px;
     margin-right: 5%;
+    transition: width 0.3s ease, margin 0.3s ease, padding 0.3s ease;
   }
+
+  .aside-toggle {
+    background: transparent;
+    border: 1px solid var(--fg);
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    cursor: pointer;
+    color: var(--fg);
+    font-size: 0.9rem;
+    line-height: 1;
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease;
+  }
+
+  .aside-inner {
+    transition: opacity 0.2s ease;
+  }
+
+  .left-aside.collapsed {
+    width: 2.5rem !important;
+    padding: 20px 0.25rem;
+    margin-right: 1rem;
+    overflow: hidden;
+  }
+
+  .left-aside.collapsed .aside-inner {
+    opacity: 0;
+    pointer-events: none;
+  }
+
 
   @media (max-width: 1200px) {
     .left-aside {
@@ -295,6 +359,18 @@ if (database.Icon && database.Icon.Type === 'file') {
       margin: 0 auto;
       padding: 20px 40px;
     }
+    .aside-toggle {
+      display: none;
+    }
+    .left-aside.collapsed {
+      width: 95% !important;
+      padding: 20px 40px;
+      margin: 0 auto;
+    }
+    .left-aside.collapsed .aside-inner {
+      opacity: 1;
+      pointer-events: auto;
+    }
     .sticky-social {
       display: none;
     }
@@ -304,12 +380,12 @@ if (database.Icon && database.Icon.Type === 'file') {
     }
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 650px) {
     .left-aside {
       display: block;
       width: 100%;
-      margin-left: auto;
-      padding: 0 18px;
+      margin: 0;
+      padding: 20px 18px;
     }
   }
 
@@ -330,9 +406,17 @@ if (database.Icon && database.Icon.Type === 'file') {
   div.cover img {
     display: block;
     width: auto;
+    max-width: calc(100% - 4rem);
     height: 15vh;
+    max-height: 15vh;
     object-fit: cover;
     object-position: center 60%;
+  }
+
+  @media (max-width: 640px) {
+    div.cover img {
+      height: auto;
+    }
   }
   div.cover img.dark-only {
     display: none;
@@ -348,7 +432,7 @@ if (database.Icon && database.Icon.Type === 'file') {
     padding: 20px 40px;
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 650px) {
     div.content {
       padding: 0 18px;
       width: auto;

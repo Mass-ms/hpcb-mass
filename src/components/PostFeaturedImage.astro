@@ -39,4 +39,13 @@ if (post.FeaturedImage && post.FeaturedImage.Url) {
     width: 20rem;
     object-fit: cover;
   }
+  @media (max-width: 500px) {
+    .post-featured-image img {
+      width: 100%;
+      height: auto;
+      max-width: 20rem;
+      aspect-ratio: auto;
+      object-fit: contain;
+    }
+  }
 </style>
