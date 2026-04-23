@@ -311,17 +311,18 @@ if (database.Icon && database.Icon.Type === 'file') {
 
   .aside-toggle {
     background: transparent;
-    border: 1px solid var(--fg);
-    border-radius: 50%;
-    width: 2rem;
-    height: 2rem;
-    padding: 0;
+    border: none;
+    padding: 0.25rem;
     cursor: pointer;
     color: var(--fg);
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     line-height: 1;
     margin-bottom: 1rem;
-    transition: transform 0.3s ease;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+  }
+  .aside-toggle:hover {
+    opacity: 1;
   }
 
   .aside-inner {
