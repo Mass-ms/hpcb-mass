@@ -6,38 +6,12 @@ import type {
   Heading3,
   RichText,
   Column,
-  Post,
 } from './interfaces'
 import { pathJoin } from './utils'
 
 export const filePath = (url: URL): string => {
   const [dir, filename] = url.pathname.split('/').slice(-2)
   return pathJoin(BASE_PATH, `/notion/${dir}/${filename}`)
-}
-
-/**
- * FeaturedImageが設定されていない場合のフォールバック画像を取得
- * タグに応じた画像を返し、該当がない場合はデフォルト画像を返す
- */
-export const getFallbackImage = (post: Post): string => {
-  // タグに応じた画像のマッピング
-  const tagImageMap: { [key: string]: string } = {
-    'DTM': '/images/logo.jpg',
-    'お知らせ': '/images/logo.jpg',
-    '小ネタ': '/images/logo.jpg',
-    '開発ログ': '/images/logo.jpg',
-  }
-
-  // 最初のタグに基づいて画像を選択
-  if (post.Tags && post.Tags.length > 0) {
-    const firstTag = post.Tags[0].name
-    if (tagImageMap[firstTag]) {
-      return pathJoin(BASE_PATH, tagImageMap[firstTag])
-    }
-  }
-
-  // デフォルト画像を返す
-  return pathJoin(BASE_PATH, '/images/logo.jpg')
 }
 
 export const extractTargetBlocks = (

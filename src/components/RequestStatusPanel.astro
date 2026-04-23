@@ -45,14 +45,7 @@
                 slicedData.slice(i, i + 6).forEach((item) => {
                     const dateCell = document.createElement('td')
                     dateCell.textContent = item.date
-                    dateCell.style.border = '1px solid #ddd'
-                    dateCell.style.padding = '8px'
-                    dateCell.style.textAlign = 'center'
-
                     const statusCell = document.createElement('td')
-                    statusCell.style.border = '1px solid #ddd'
-                    statusCell.style.padding = '8px'
-                    statusCell.style.textAlign = 'center'
 
                     let statusSymbol = ''
                     switch (item.status) {
@@ -103,14 +96,18 @@
         display: block;
         margin: 0 auto;
     }
-    table {
+    :global(#widget table) {
         width: 100%;
         border-collapse: collapse;
     }
-    th,
-    td {
+    :global(#widget th),
+    :global(#widget td) {
         border: 1px solid #ddd;
         padding: 8px;
         text-align: center;
+    }
+    :global(.darkmode #widget th),
+    :global(.darkmode #widget td) {
+        border-color: #444;
     }
 </style>

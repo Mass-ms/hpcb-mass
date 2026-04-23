@@ -41,4 +41,10 @@ const [posts, rankedPosts, tags, numberOfPages] = await Promise.all([
         <BlogTagsLink heading="Categories" tags={tags} />
     </div>
 </Layout>
+
+<style>
+    :global(.darkmode) iframe {
+        filter: invert(0.92) hue-rotate(180deg);
+    }
+</style>
 ---

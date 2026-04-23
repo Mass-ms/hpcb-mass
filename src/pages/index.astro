@@ -111,6 +111,14 @@ const [blogPosts, blogRankedPosts, blogTags, blogNumberOfPages] = await Promise.
     color: #fff;
   }
 
+  :global(.darkmode) a.req {
+    background-image: linear-gradient(
+      to right,
+      #1e6a8f 50%,
+      #3a566b 50%
+    );
+  }
+
   .description {
     white-space: pre-line;
   }

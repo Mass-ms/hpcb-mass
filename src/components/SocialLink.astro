@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets'
 import ytMusicIcon from '../images/app_icon_music_192.svg'
 import niconicoIcon from '../images/nc296561.png'
+import niconicoIconDark from '../images/nc296562.png'
 import boothIcon from '../images/logo_icon_r.png'
 import moraIcon from '../images/mora_a1.png'
 ---
@@ -23,7 +24,8 @@ import moraIcon from '../images/mora_a1.png'
                     target="_blank"
                     class="icon"
                 >
-                    <Image src={niconicoIcon} alt="NicoNico" />
+                    <Image class="light-only" src={niconicoIcon} alt="NicoNico" />
+                    <Image class="dark-only" src={niconicoIconDark} alt="NicoNico" />
                     <span class="sr-only">NicoNico</span>
                 </a>
                 <a
@@ -184,16 +186,25 @@ import moraIcon from '../images/mora_a1.png'
         .icon:hover {
             color: #2d2d2d;
         }
-        .darkmode .icon {
+        :global(.darkmode) .icon {
             color: #d1d1d1;
         }
-        .darkmode .icon:hover {
+        :global(.darkmode) .icon:hover {
             color: #b3b3b3;
         }
         .icon img {
             height: 2rem;
             width: auto;
             margin-top: 0.4rem;
+        }
+        .icon img.dark-only {
+            display: none;
+        }
+        :global(.darkmode) .icon img.light-only {
+            display: none;
+        }
+        :global(.darkmode) .icon img.dark-only {
+            display: inline;
         }
         @media (max-width: 990px) {
             .panel {

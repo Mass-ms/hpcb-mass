@@ -67,6 +67,10 @@ const { prevPost, nextPost } = Astro.props
     color: var(--fg);
     background: rgba(227, 226, 224, 0.5);
   }
+  :global(.darkmode) div.post-relative-link > div > a.colored {
+    background: transparent;
+    border: 1px solid rgba(227, 226, 224, 0.3);
+  }
   div.post-relative-link > div > a.colored > div:first-child {
     width: auto;
     text-align: left;
