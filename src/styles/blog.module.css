@@ -23,6 +23,9 @@
 
 .post {
   margin: 0 auto 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
 }
 
 @media (min-width: 990px) {
