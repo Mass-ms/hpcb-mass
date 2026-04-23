@@ -29,28 +29,46 @@ const [workPosts, workRankedPosts, workTags, workNumberOfPages] = await Promise.
   getAllTags(),
   getNumberOfPagesByTags(workTagNames),
 ])
+
+const postsByYear = workPosts.reduce((acc: Record<string, typeof workPosts>, post) => {
+  const year = post.Date ? post.Date.slice(0, 4) : 'その他'
+  if (!acc[year]) acc[year] = []
+  acc[year].push(post)
+  return acc
+}, {})
+
+Object.values(postsByYear).forEach((posts) =>
+  posts.sort((a, b) => (a.Date || '').localeCompare(b.Date || ''))
+)
+
+const years = Object.keys(postsByYear).sort((a, b) => b.localeCompare(a))
 ---
 
 <Layout>
     <div slot="main" class={styles.main}>
       <h1>作品・出演</h1>
-      <div class={styles.postContainer}>
-        {
-          workPosts.length === 0 ? (
-            <NoContents contents={workPosts} />
-          ) : (
-            workPosts.map((post) => (
-              <div class={styles.post} key={post.Slug}>
-                <PostDate post={post} />
-                <PostFeaturedImage post={post} />
-                <PostTags post={post} />
-                <PostTitle post={post} />
-                <PostExcerpt post={post} />
+      {
+        workPosts.length === 0 ? (
+          <NoContents contents={workPosts} />
+        ) : (
+          years.map((year) => (
+            <section class="year-group">
+              <h2 class="year-heading">{year}</h2>
+              <div class={styles.postContainer}>
+                {postsByYear[year].map((post) => (
+                  <div class={styles.post} key={post.Slug}>
+                    <PostDate post={post} />
+                    <PostFeaturedImage post={post} />
+                    <PostTags post={post} />
+                    <PostTitle post={post} />
+                    <PostExcerpt post={post} />
+                  </div>
+                ))}
               </div>
-            ))
-          )
-        }
-      </div>
+            </section>
+          ))
+        )
+      }
     </div>
   
     <div slot="aside" class={styles.aside}>
@@ -72,9 +90,20 @@ const [workPosts, workRankedPosts, workTags, workNumberOfPages] = await Promise.
       background-size: 200% auto;
       transition: 0.3s;
     }
-  
+
     a:hover {
       background-position: -100% 0;
       color: #fff;
+    }
+
+    .year-group {
+      margin-top: 2rem;
+    }
+    .year-heading {
+      margin: 0 0 1rem;
+      padding-bottom: 0.3rem;
+      border-bottom: 1px solid var(--fg);
+      font-size: 1.5rem;
+      font-weight: 400;
     }
   </style>
