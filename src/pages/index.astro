@@ -1,5 +1,6 @@
 ---
 import { NUMBER_OF_POSTS_PER_PAGE } from '../server-constants.ts'
+import { WORK_TAG_NAMES, BLOG_TAG_NAMES } from '../constants.ts'
 import { getDatabase } from '../lib/notion/client.ts'
 import {
   getPostsByTags,
@@ -23,22 +24,18 @@ import styles from '../styles/blog.module.css'
 const database = await getDatabase()
 const { tag } = Astro.params
 
-const workTagNames = ['参加', '楽曲投稿', '楽曲リリース'] // 使用したいタグ名を配列に追加
-
 const [workPosts, workRankedPosts, workTags, workNumberOfPages] = await Promise.all([
-  getPostsByTags(workTagNames, NUMBER_OF_POSTS_PER_PAGE),
+  getPostsByTags(WORK_TAG_NAMES, NUMBER_OF_POSTS_PER_PAGE),
   getRankedPosts(),
   getAllTags(),
-  getNumberOfPagesByTags(workTagNames),
+  getNumberOfPagesByTags(WORK_TAG_NAMES),
 ])
 
-const blogTagNames = ['DTM', 'お知らせ', '小ネタ', '開発ログ'] // 使用したいタグ名を配列に追加
-
 const [blogPosts, blogRankedPosts, blogTags, blogNumberOfPages] = await Promise.all([
-  getPostsByTags(blogTagNames, NUMBER_OF_POSTS_PER_PAGE),
+  getPostsByTags(BLOG_TAG_NAMES, NUMBER_OF_POSTS_PER_PAGE),
   getRankedPosts(),
   getAllTags(),
-  getNumberOfPagesByTags(blogTagNames),
+  getNumberOfPagesByTags(BLOG_TAG_NAMES),
 ])
 ---
 
