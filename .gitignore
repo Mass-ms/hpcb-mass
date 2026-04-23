@@ -30,3 +30,6 @@ public/notion/*
 !public/notion/.gitkeep
 
 .devcontainer/.env
+
+# Claude Code local guidance
+CLAUDE.md
